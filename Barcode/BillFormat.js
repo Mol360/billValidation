@@ -13,7 +13,6 @@ class BillFormat {
     };
 
     isBarcodeLengthValid() {
-        console.log(this.strBarcode.length < this.barcodeLength);
         if(this.strBarcode.length < this.barcodeLength) {
             throw "BillFormat barcode length not valid";
         }
@@ -23,8 +22,6 @@ class BillFormat {
         for(var i = 0; i < this.strBillPattern.length; i++) {
             this.objBillPattern[this.strBillPattern[i]] += this.strBarcode[i];
         }
-        console.log(this.objBillPattern);
-        console.log("Convertido :: " + this.getConvertedBarcode());
     };
 
     getBankCode() {
@@ -58,6 +55,9 @@ class BillFormat {
 
     getBarcodeFirstBlock() {
         return this.getBankCode() + this.getCurrencyCode() + this.getBarcodeDigitCode() + this.getExpirationFactor() + this.getAmount();
+    };
+    getNoDigitCodeBarcodeFirstBlock() {
+        return this.getBankCode() + this.getCurrencyCode() + this.getExpirationFactor() + this.getAmount();
     };
 
     /*
@@ -103,6 +103,10 @@ class BillFormat {
 
     getConvertedBarcode() {
         return this.getBarcodeFirstBlock() + this.getBarcodeSecondBlock() + this.getBarcodeThirdBlock() + this.getBarcodeFourthBlock();
+    };
+
+    getValidationBarcode() {
+        return this.getNoDigitCodeBarcodeFirstBlock() + this.getBarcodeSecondBlock() + this.getBarcodeThirdBlock() + this.getBarcodeFourthBlock();
     };
 
     getText(){

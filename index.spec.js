@@ -8,7 +8,7 @@ describe('Module Calcule Validation', () => {
 		const validStr = "0447561740";
 		const validDigitVerification = "5";
 		var barcodeBillFormatValidation;
-		
+
 		try {
 			barcodeBillFormatValidation = new BarcodeValidation(barcode);
 		} catch (e) {
@@ -16,6 +16,24 @@ describe('Module Calcule Validation', () => {
 		}
 
 		isValid = barcodeBillFormatValidation.isValidTenModule(validStr, validDigitVerification);
+
+		expect(isValid).toBe(true);
+	});
+
+	it('A valid eleven module calculation', () => {
+		const barcode = "21290001192110001210904475617405975870000002000";
+		var isValid = true;
+		const validStr = "2129758700000020000001121100012100447561740";
+		const validDigitVerification = "9";
+		var barcodeBillFormatValidation;
+
+		try {
+			barcodeBillFormatValidation = new BarcodeValidation(barcode);
+		} catch (e) {
+			//
+		}
+
+		isValid = barcodeBillFormatValidation.isValidElevenModule(validStr, validDigitVerification);
 
 		expect(isValid).toBe(true);
 	});
@@ -50,6 +68,11 @@ describe('Bill Format Test', () => {
 
 	it('A valid BillFormat fourth block with verification digit', () => {
 		var isValid = barcodeBillFormatValidation.isBarcodeFourthBlockValid();
+		expect(isValid).toBe(true);
+	});
+
+	it('A valid BillFormat complete barcode with verification digit', () => {
+		var isValid = barcodeBillFormatValidation.isValidBarcode();
 		expect(isValid).toBe(true);
 	});
 });

@@ -64,13 +64,31 @@ class BarcodeValidation {
         }
     };
 
+    validateBarcode() {
+        if(!this.isValidBarcode()) {
+            throw "Barcode verification digit is not valid : " + this.barcodeFormat.getValidationBarcode() + " - " + this.barcodeFormat.getBarcodeDigitCode();
+        }
+    };
+    isValidBarcode() {
+        return this.isValidElevenModule(this.barcodeFormat.getValidationBarcode(), this.barcodeFormat.getBarcodeDigitCode());
+    };
+
     validate() {
         this.validateBarcodeBlocks();
+        this.validateBarcode();
     };
 
     isValidTenModule(strCodeValidation, verificationCode) {
         var isValid = false;
         if(parseInt(verificationCode) == this.getTenModuleVerificationCode(strCodeValidation)) {
+            isValid = true;
+        }
+        return isValid;
+    };
+
+    isValidElevenModule(strCodeValidation, verificationCode) {
+        var isValid = false;
+        if(parseInt(verificationCode) == this.getElevenModuleVerificationCode(strCodeValidation)) {
             isValid = true;
         }
         return isValid;
@@ -92,6 +110,31 @@ class BarcodeValidation {
         var sumModule = resultSum % 10;
         if(sumModule > 0) {
             verificationCode = 10 - sumModule;
+        }
+
+        return verificationCode;
+    };
+
+    getElevenModuleVerificationCode(strCodeValidation) {
+        var resultSum = 0;
+        var multiplier = 2;
+        var verificationCode = 0;
+
+        for(var i = strCodeValidation.length; i > 0; i--) {
+            var tmpSum = (multiplier * parseInt(strCodeValidation[i - 1])).toString();
+            multiplier ++;
+            if(multiplier > 9) {
+                multiplier = 2;
+            }
+            resultSum += parseInt(tmpSum);
+        }
+
+        var sumModule = resultSum % 11;
+        if(sumModule > 0) {
+            verificationCode = 11 - sumModule;
+            if(verificationCode == 0 || verificationCode == 10 || verificationCode == 11) {
+                verificationCode = 1;
+            }
         }
 
         return verificationCode;
