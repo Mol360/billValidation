@@ -17,7 +17,7 @@ To run the project you will need to have docker installed.
    ```sh
    docker-compose up
    ```
-4. Access your local host on port http://localhost:8080/boleto/[$billNumber]
+4. Access your local host on port 8080 http://localhost:8080/boleto/[$billNumber]
    ```sh
    #Bill Format example
    curl -i http://localhost:8080/boleto/21290001192110001210904475617405975870000002000
