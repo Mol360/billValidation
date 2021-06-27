@@ -1,0 +1,16 @@
+{
+	"name": "node-test",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"test": "jest"
+	},
+	"devDependencies": {
+		"jest": "^26.4.2",
+		"supertest": "^4.0.2"
+	},
+	"dependencies": {
+		"express": "^4.17.1"
+	}
+}
