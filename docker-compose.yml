@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  nodejs-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nodejs-test
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    command: npm start
