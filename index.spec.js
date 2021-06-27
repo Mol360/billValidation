@@ -56,6 +56,11 @@ describe('Bill Format Test', () => {
 		expect(isValid).toBe(true);
 	});
 
+	it('A valid BillFormat first block with verification digit', () => {
+		var isValid = barcodeBillFormatValidation.isBarcodeFirstBlockValid();
+		expect(isValid).toBe(true);
+	});
+
 	it('A valid BillFormat second block with verification digit', () => {
 		var isValid = barcodeBillFormatValidation.isBarcodeSecondBlockValid();
 		expect(isValid).toBe(true);
@@ -73,6 +78,50 @@ describe('Bill Format Test', () => {
 
 	it('A valid BillFormat complete barcode with verification digit', () => {
 		var isValid = barcodeBillFormatValidation.isValidBarcode();
+		expect(isValid).toBe(true);
+	});
+});
+
+
+describe('Affiliate Bill Format Test', () => {
+	const validAffiliateFormatBarcode = "817700000000010936599702411310797039001433708318";
+	var barcodeAffiliateFormatValidation;
+
+	it('A valid AffiliateFormat barcode format', () => {
+		var isValid = true;
+
+		try {
+			barcodeAffiliateFormatValidation = new BarcodeValidation(validAffiliateFormatBarcode);
+		} catch (e) {
+			isValid = false;
+			console.log("Error : " + e);
+		}
+
+		expect(isValid).toBe(true);
+	});
+
+	it('A valid AffiliateFormat first block with verification digit', () => {
+		var isValid = barcodeAffiliateFormatValidation.isBarcodeFirstBlockValid();
+		expect(isValid).toBe(true);
+	});
+
+	it('A valid AffiliateFormat second block with verification digit', () => {
+		var isValid = barcodeAffiliateFormatValidation.isBarcodeSecondBlockValid();
+		expect(isValid).toBe(true);
+	});
+
+	it('A valid AffiliateFormat third block with verification digit', () => {
+		var isValid = barcodeAffiliateFormatValidation.isBarcodeThirdBlockValid();
+		expect(isValid).toBe(true);
+	});
+
+	it('A valid AffiliateFormat fourth block with verification digit', () => {
+		var isValid = barcodeAffiliateFormatValidation.isBarcodeFourthBlockValid();
+		expect(isValid).toBe(true);
+	});
+
+	it('A valid AffiliateFormat complete barcode with verification digit', () => {
+		var isValid = barcodeAffiliateFormatValidation.isValidBarcode();
 		expect(isValid).toBe(true);
 	});
 });

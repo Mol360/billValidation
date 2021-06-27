@@ -4,9 +4,6 @@ const app = express();
 
 app.get('/boleto/:barcode', (req, res) => {
 	var barcode = req.params.barcode;
-	var barcode = "21290001192110001210904475617405975870000002000"; // billFormat
-	//var barcode = "817700000000010936599702411310797039001433708318"; // affiliateFormat
-
 	var result = {};
 	var responseCode = 200;
 

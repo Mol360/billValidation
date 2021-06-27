@@ -1,27 +1,15 @@
+const FormatBase = require('./FormatBase');
 const dateFormat = require("dateformat");
 
-class BillFormat {
+class BillFormat extends FormatBase {
     static barcodeLength = 47;
     strBillPattern = "AAABCCCCCXDDDDDDDDDDYEEEEEEEEEEZKUUUUVVVVVVVVVV";
     objBillPattern = {A:"", B:"", C:"", X:"", D:"", Y:"", E:"", Z:"", K:"", U:"", V:""};
-    strBarcode = "";
 
     constructor(strBarcode) {
-        this.strBarcode = strBarcode;
+        super(strBarcode, BillFormat.barcodeLength);
         this.isBarcodeLengthValid();
         this.prepareBillPattern();
-    };
-
-    isBarcodeLengthValid() {
-        if(this.strBarcode.length < this.barcodeLength) {
-            throw "BillFormat barcode length not valid";
-        }
-    }
-
-    prepareBillPattern() {
-        for(var i = 0; i < this.strBillPattern.length; i++) {
-            this.objBillPattern[this.strBillPattern[i]] += this.strBarcode[i];
-        }
     };
 
     getBankCode() {
@@ -109,8 +97,16 @@ class BillFormat {
         return this.getNoDigitCodeBarcodeFirstBlock() + this.getBarcodeSecondBlock() + this.getBarcodeThirdBlock() + this.getBarcodeFourthBlock();
     };
 
+    getBlocksModuleType() {
+        return FormatBase.TEN_MODULE;
+    };
+
+    getCompleteBarcodeModuleType() {
+        return FormatBase.ELEVEN_MODULE;
+    };
+
     getText(){
-        return "billFormat";
+        return "BillFormat";
     };
 };
 

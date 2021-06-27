@@ -1,5 +1,6 @@
 const AffiliateFormat = require('./AffiliateFormat');
 const BillFormat = require('./BillFormat');
+const FormatBase = require('./FormatBase');
 
 class BarcodeValidation {
     strBarcode = "";
@@ -10,12 +11,16 @@ class BarcodeValidation {
         this.strBarcode = strBarcode;
         this.currentBarcodeLength = strBarcode.length;
 
-        if(this.currentBarcodeLength == BillFormat.barcodeLength) {
-            this.barcodeFormat = new BillFormat(this.strBarcode);
-        } else if(this.currentBarcodeLength == AffiliateFormat.barcodeLength) {
-            this.barcodeFormat = new AffiliateFormat(this.strBarcode);
+        if(!isNaN(strBarcode)) {
+            if(this.currentBarcodeLength == BillFormat.barcodeLength) {
+                this.barcodeFormat = new BillFormat(this.strBarcode);
+            } else if(this.currentBarcodeLength == AffiliateFormat.barcodeLength) {
+                this.barcodeFormat = new AffiliateFormat(this.strBarcode);
+            } else {
+                throw "Barcode format undefined.";
+            }
         } else {
-            throw "Barcode format undefined.";
+            throw "Invalid Barcode number.";
         }
     };
 
@@ -36,19 +41,59 @@ class BarcodeValidation {
     };
 
     isBarcodeFirstBlockValid() {
-        return this.isValidTenModule(this.barcodeFormat.getValidationBarcodeFirstBlock(), this.barcodeFormat.getBarcodeFirstBlockDigit());
+        var isValid = false;
+        var validationBlockCode = this.barcodeFormat.getValidationBarcodeFirstBlock();
+        var verificationDigitCode = this.barcodeFormat.getBarcodeFirstBlockDigit();
+
+        if(this.barcodeFormat.getBlocksModuleType() == FormatBase.TEN_MODULE) {
+            isValid = this.isValidTenModule(validationBlockCode, verificationDigitCode);
+        } else if(this.barcodeFormat.getBlocksModuleType() == FormatBase.ELEVEN_MODULE) {
+            isValid = this.isValidElevenModule(validationBlockCode, verificationDigitCode);
+        }
+
+        return isValid;
     };
 
     isBarcodeSecondBlockValid() {
-        return this.isValidTenModule(this.barcodeFormat.getValidationBarcodeSecondBlock(), this.barcodeFormat.getBarcodeSecondBlockDigit());
+        var isValid = false;
+        var validationBlockCode = this.barcodeFormat.getValidationBarcodeSecondBlock();
+        var verificationDigitCode = this.barcodeFormat.getBarcodeSecondBlockDigit();
+
+        if(this.barcodeFormat.getBlocksModuleType() == FormatBase.TEN_MODULE) {
+            isValid = this.isValidTenModule(validationBlockCode, verificationDigitCode);
+        } else if(this.barcodeFormat.getBlocksModuleType() == FormatBase.ELEVEN_MODULE) {
+            isValid = this.isValidElevenModule(validationBlockCode, verificationDigitCode);
+        }
+
+        return isValid;
     };
 
     isBarcodeThirdBlockValid() {
-        return this.isValidTenModule(this.barcodeFormat.getValidationBarcodeThirdBlock(), this.barcodeFormat.getBarcodeThirdBlockDigit());
+        var isValid = false;
+        var validationBlockCode = this.barcodeFormat.getValidationBarcodeThirdBlock();
+        var verificationDigitCode = this.barcodeFormat.getBarcodeThirdBlockDigit();
+
+        if(this.barcodeFormat.getBlocksModuleType() == FormatBase.TEN_MODULE) {
+            isValid = this.isValidTenModule(validationBlockCode, verificationDigitCode);
+        } else if(this.barcodeFormat.getBlocksModuleType() == FormatBase.ELEVEN_MODULE) {
+            isValid = this.isValidElevenModule(validationBlockCode, verificationDigitCode);
+        }
+
+        return isValid;
     };
 
     isBarcodeFourthBlockValid() {
-        return this.isValidTenModule(this.barcodeFormat.getValidationBarcodeFourthBlock(), this.barcodeFormat.getBarcodeFourthBlockDigit());
+        var isValid = false;
+        var validationBlockCode = this.barcodeFormat.getValidationBarcodeFourthBlock();
+        var verificationDigitCode = this.barcodeFormat.getBarcodeFourthBlockDigit();
+
+        if(this.barcodeFormat.getBlocksModuleType() == FormatBase.TEN_MODULE) {
+            isValid = this.isValidTenModule(validationBlockCode, verificationDigitCode);
+        } else if(this.barcodeFormat.getBlocksModuleType() == FormatBase.ELEVEN_MODULE) {
+            isValid = this.isValidElevenModule(validationBlockCode, verificationDigitCode);
+        }
+
+        return isValid;
     };
 
     validateBarcodeBlocks() {
@@ -70,7 +115,17 @@ class BarcodeValidation {
         }
     };
     isValidBarcode() {
-        return this.isValidElevenModule(this.barcodeFormat.getValidationBarcode(), this.barcodeFormat.getBarcodeDigitCode());
+        var isValid = false;
+        var validationBlockCode = this.barcodeFormat.getValidationBarcode();
+        var verificationDigitCode = this.barcodeFormat.getBarcodeDigitCode();
+
+        if(this.barcodeFormat.getCompleteBarcodeModuleType() == FormatBase.TEN_MODULE) {
+            isValid = this.isValidTenModule(validationBlockCode, verificationDigitCode);
+        } else if(this.barcodeFormat.getCompleteBarcodeModuleType() == FormatBase.ELEVEN_MODULE) {
+            isValid = this.isValidElevenModule(validationBlockCode, verificationDigitCode);
+        }
+
+        return isValid;
     };
 
     validate() {
