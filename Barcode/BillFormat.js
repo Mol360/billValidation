@@ -60,6 +60,26 @@ class BillFormat {
         return this.getBankCode() + this.getCurrencyCode() + this.getBarcodeDigitCode() + this.getExpirationFactor() + this.getAmount();
     };
 
+    /*
+     * This is just for compatibility, there is no first block for validation in this format.
+     */
+    getBarcodeFirstBlockDigit() {
+        return 0;
+    };
+    getValidationBarcodeFirstBlock() {
+        return '0000000000';
+    };
+
+    getValidationBarcodeSecondBlock() {
+        return this.getBankCode() + this.getCurrencyCode() + this.getBarcodeSecondBlock();
+    };
+    getValidationBarcodeThirdBlock() {
+        return this.getBarcodeThirdBlock();
+    };
+    getValidationBarcodeFourthBlock() {
+        return this.getBarcodeFourthBlock();
+    };
+
     getBarcodeSecondBlock() {
         return this.objBillPattern["C"];
     };
@@ -83,7 +103,7 @@ class BillFormat {
 
     getConvertedBarcode() {
         return this.getBarcodeFirstBlock() + this.getBarcodeSecondBlock() + this.getBarcodeThirdBlock() + this.getBarcodeFourthBlock();
-    }
+    };
 
     getText(){
         return "billFormat";

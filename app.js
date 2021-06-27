@@ -12,6 +12,7 @@ app.get('/boleto/:barcode', (req, res) => {
 
 	try {
 		var barcodeValidation = new BarcodeValidation(barcode);
+		barcodeValidation.validate();
 		result = {
 			barCode: barcodeValidation.getConvertedBarcode(),
 			amount: barcodeValidation.getAmount(),
