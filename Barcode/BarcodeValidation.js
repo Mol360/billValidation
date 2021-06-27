@@ -19,6 +19,18 @@ class BarcodeValidation {
         }
     };
 
+    getConvertedBarcode() {
+        return this.barcodeFormat.getConvertedBarcode();
+    };
+
+    getAmount() {
+        return this.barcodeFormat.getFormattedAmount();
+    };
+
+    getExpirationDate() {
+        return this.barcodeFormat.getFormattedExpirationDate();
+    };
+
     getBarcode() {
         return this.strBarcode;
     };
